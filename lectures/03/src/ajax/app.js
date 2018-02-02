@@ -1,8 +1,7 @@
 const express = require('express')
 const app = express();
 
-var bodyParser = require('body-parser');
-
+const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
@@ -10,9 +9,10 @@ app.use(express.static('static'));
 
 app.use(function (req, res, next){
     console.log("HTTP request", req.method, req.url, req.body);
+    next();
 });
 
-app.post('/', function (req, res, next) {
+app.post('/uri', function (req, res, next) {
     res.end("The server has received: " + req.body.content);
 });
 
