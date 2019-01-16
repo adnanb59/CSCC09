@@ -1,7 +1,7 @@
-var api = (function(){
+let api = (function(){
     "use strict";
     
-    var module = {};
+    let module = {};
     
     if (!localStorage.getItem('todo')){
         localStorage.setItem('todo', JSON.stringify({next: 0, items: []}));
@@ -16,33 +16,46 @@ var api = (function(){
     ****************************** */ 
     
     // add an item
-    // return an item object
     module.addItem = function(content){
-        var todo = JSON.parse(localStorage.getItem('todo'));
-        var item = {id: todo.next++, content: content}
+        let todo = JSON.parse(localStorage.getItem('todo'));
+        let item = {id: todo.next++, content: content}
         todo.items.push(item);
         localStorage.setItem('todo', JSON.stringify(todo));
-        return item;
+        notifyItemListeners();
     }
     
     // delete an item given its itemId
     module.deleteItem = function(itemId){
-        var todo = JSON.parse(localStorage.getItem('todo'));
-        var index = todo.items.findIndex(function(item){
+        let todo = JSON.parse(localStorage.getItem('todo'));
+        let index = todo.items.findIndex(function(item){
             return item.id == itemId;
         });
         if (index == -1) return null;
-        var item = todo.items[index];
+        let item = todo.items[index];
         todo.items.splice(index, 1);
         localStorage.setItem('todo', JSON.stringify(todo));
-        return item;
+        notifyItemListeners();
     }
     
-    // get all items in the list
-    // return an array of item objects
+    // get all items
     module.getItems = function(){
-       var todo = JSON.parse(localStorage.getItem('todo'));
-       return todo.items;
+        let todo = JSON.parse(localStorage.getItem('todo'));
+        return todo.items;
+    }
+    
+    let itemListeners = [];
+    
+    // notify all item listeners
+    function notifyItemListeners(){
+        itemListeners.forEach(function(listener){
+            listener(api.getItems());
+        });
+    }
+    
+    // register an item listener
+    module.onItemUpdate = function(listener){
+        itemListeners.push(listener);
+        listener(api.getItems());
     }
     
     return module;

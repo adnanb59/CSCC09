@@ -6,8 +6,8 @@
     }
 
     function success(position) {
-         var lat = position.coords.latitude;
-         var long = position.coords.longitude;
+         let lat = position.coords.latitude;
+         let long = position.coords.longitude;
          document.querySelector('#latitude span').innerHTML = lat;
          document.querySelector('#longitude span').innerHTML = long;
     }

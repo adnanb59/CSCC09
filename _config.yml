@@ -4,5 +4,5 @@ exclude:
   - Gemfile.lock
   - README.md
   - "*.key"
-
-
+  - "*.nogit"
+  

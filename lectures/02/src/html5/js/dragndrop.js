@@ -5,7 +5,7 @@
     "use strict";
     
     function createDragNDropZone(){
-        var holder = document.getElementById("fileUploader");
+        let holder = document.getElementById("fileUploader");
 
         holder.ondragstart = function(e){return false;};
 
@@ -19,15 +19,15 @@
 
         holder.ondrop = function(e) {
             e.preventDefault();
-            var file = e.dataTransfer.files[0];
-            var reader = new FileReader();
+            let file = e.dataTransfer.files[0];
+            let reader = new FileReader();
             reader.onload = function (e) {
                 // as a CSS background
-                // var img = $("#container1")[0];
+                // let img = $("#container1")[0];
                 // img.style.background = 'url(' + e.target.result + ') no-repeat center';
 
                 // as an HTML element
-                var img = document.createElement('img');
+                let img = document.createElement('img');
                 img.src = e.target.result;
                 document.getElementById("container1").appendChild(img);
             };
